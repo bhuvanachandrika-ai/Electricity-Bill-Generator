@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <div>
+
+        <h1>Dashboard</h1>
+
+        <p>
+            Welcome, {{ session["user"] }}!
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('generate_bill') }}"
+       class="btn">
+
+        + Generate Bill
+
+    </a>
+
+</div>
+
+
+<div class="dashboard-cards">
+
+    <div class="dashboard-card">
+
+        <div class="card-icon">
+            👥
+        </div>
+
+        <p>Total Customers</p>
+
+        <h2>
+            {{ customer_count }}
+        </h2>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <div class="card-icon">
+            🧾
+        </div>
+
+        <p>Total Bills</p>
+
+        <h2>
+            {{ bill_count }}
+        </h2>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <div class="card-icon">
+            ₹
+        </div>
+
+        <p>Total Billing Amount</p>
+
+        <h2>
+            ₹{{ "%.2f"|format(total_amount) }}
+        </h2>
+
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <h2>Recent Bills</h2>
+
+        <a href="{{ url_for('bill_history') }}">
+            View All
+        </a>
+
+    </div>
+
+
+    {% if recent_bills %}
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Bill ID</th>
+                    <th>Consumer No.</th>
+                    <th>Month</th>
+                    <th>Units</th>
+                    <th>Amount</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for bill in recent_bills %}
+
+                <tr>
+
+                    <td>
+                        #{{ bill["id"] }}
+                    </td>
+
+                    <td>
+                        {{ bill["consumer_no"] }}
+                    </td>
+
+                    <td>
+                        {{ bill["bill_month"] }}
+                    </td>
+
+                    <td>
+                        {{ bill["units"] }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(bill["amount"]) }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <p class="empty">
+        No bills generated yet.
+    </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

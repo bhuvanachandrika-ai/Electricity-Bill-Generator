@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="bill-container">
+
+    <div class="bill-header">
+
+        <div>
+
+            <h1>
+                ⚡ PowerBill
+            </h1>
+
+            <p>
+                Electricity Bill
+            </p>
+
+        </div>
+
+
+        <div class="bill-number">
+
+            <span>
+                Bill Number
+            </span>
+
+            <strong>
+                #{{ bill["id"] }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="customer-info">
+
+        <div>
+
+            <span>
+                Consumer Number
+            </span>
+
+            <strong>
+                {{ bill["consumer_no"] }}
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Customer Name
+            </span>
+
+            <strong>
+                {{ bill["name"] }}
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Phone
+            </span>
+
+            <strong>
+                {{ bill["phone"] }}
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                Bill Month
+            </span>
+
+            <strong>
+                {{ bill["bill_month"] }}
+            </strong>
+
+        </div>
+
+        <div class="full-width-info">
+
+            <span>
+                Service Address
+            </span>
+
+            <strong>
+                {{ bill["address"] }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="bill-table">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        Value
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        Previous Reading
+                    </td>
+
+                    <td>
+                        {{ bill["previous_reading"] }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Current Reading
+                    </td>
+
+                    <td>
+                        {{ bill["current_reading"] }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Units Consumed
+                    </td>
+
+                    <td>
+                        {{ bill["units"] }}
+                    </td>
+
+                </tr>
+
+
+                <tr class="total-row">
+
+                    <td>
+                        Total Amount
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(bill["amount"]) }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <p class="generated-date">
+
+        Generated:
+        {{ bill["generated_at"] }}
+
+    </p>
+
+
+    <div class="bill-actions">
+
+        <button
+            onclick="window.print()"
+            class="btn"
+        >
+            🖨 Print Bill
+        </button>
+
+
+        <a
+            href="{{ url_for('bill_history') }}"
+            class="cancel-btn"
+        >
+            Back to History
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

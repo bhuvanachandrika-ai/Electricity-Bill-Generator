@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PowerBill - Electricity Billing System{% endblock %}</title>
+    
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="{{ url_for('dashboard') }}" class="logo">
+            <span class="logo-icon">⚡</span>
+            <span>PowerBill</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+                <span>📊</span> Dashboard
+            </a>
+            <a href="{{ url_for('customers') }}" class="{% if request.endpoint == 'customers' %}active{% endif %}">
+                <span>👥</span> Customers
+            </a>
+            <a href="{{ url_for('generate_bill') }}" class="{% if request.endpoint in ['generate_bill', 'confirm_bill'] %}active{% endif %}">
+                <span>⚡</span> Generate Bill
+            </a>
+            <a href="{{ url_for('bill_history') }}" class="{% if request.endpoint in ['bill_history', 'view_bill'] %}active{% endif %}">
+                <span>🧾</span> Bill History
+            </a>
+            <div class="user-pill">
+                <span class="user-avatar">👤</span>
+                <span class="user-name">{{ session.get("user", "Admin") }}</span>
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout">
+                <span>🚪</span> Logout
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+        <!-- Flashed Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="alert {{ category }}">
+                            <span class="alert-icon">
+                                {% if category == 'success' %}✓{% else %}⚠️{% endif %}
+                            </span>
+                            <span class="alert-text">{{ message }}</span>
+                            <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Child Page Content -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

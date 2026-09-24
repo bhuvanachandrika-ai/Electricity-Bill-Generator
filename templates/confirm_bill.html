@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Confirm Bill</h1>
+
+        <p>
+            Verify the details before generating the bill.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="confirmation-card">
+
+    <div class="confirmation-title">
+        ⚡ Electricity Bill Summary
+    </div>
+
+
+    <div class="summary-grid">
+
+        <div>
+            <span>Consumer Number</span>
+            <strong>{{ consumer_no }}</strong>
+        </div>
+
+
+        <div>
+            <span>Bill Month</span>
+            <strong>{{ bill_month }}</strong>
+        </div>
+
+
+        <div>
+            <span>Previous Reading</span>
+            <strong>{{ previous_reading }}</strong>
+        </div>
+
+
+        <div>
+            <span>Current Reading</span>
+            <strong>{{ current_reading }}</strong>
+        </div>
+
+
+        <div>
+            <span>Units Consumed</span>
+            <strong>{{ units }}</strong>
+        </div>
+
+
+        <div class="total-box">
+            <span>Total Amount</span>
+            <strong>
+                ₹{{ "%.2f"|format(amount) }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('confirm_bill') }}"
+    >
+
+        <input
+            type="hidden"
+            name="consumer_no"
+            value="{{ consumer_no }}"
+        >
+
+        <input
+            type="hidden"
+            name="bill_month"
+            value="{{ bill_month }}"
+        >
+
+        <input
+            type="hidden"
+            name="previous_reading"
+            value="{{ previous_reading }}"
+        >
+
+        <input
+            type="hidden"
+            name="current_reading"
+            value="{{ current_reading }}"
+        >
+
+
+        <div class="confirmation-buttons">
+
+            <a
+                href="{{ url_for('generate_bill') }}"
+                class="cancel-btn"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Confirm & Generate Bill
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Generate Electricity Bill</h1>
+
+        <p>
+            Enter meter readings to calculate the bill.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="panel bill-form">
+
+<form method="POST">
+
+
+    <label>
+        Select Consumer
+    </label>
+
+    <select
+        name="consumer_no"
+        required
+    >
+
+        <option value="">
+            -- Select Customer --
+        </option>
+
+        {% for customer in customers %}
+
+        <option
+            value="{{ customer['consumer_no'] }}"
+        >
+
+            {{ customer["consumer_no"] }}
+            -
+            {{ customer["name"] }}
+
+        </option>
+
+        {% endfor %}
+
+    </select>
+
+
+    <label>
+        Bill Month
+    </label>
+
+    <input
+        type="month"
+        name="bill_month"
+        required
+    >
+
+
+    <label>
+        Previous Meter Reading
+    </label>
+
+    <input
+        type="number"
+        name="previous_reading"
+        id="previous_reading"
+        min="0"
+        step="0.01"
+        placeholder="Example: 12500"
+        required
+    >
+
+
+    <label>
+        Current Meter Reading
+    </label>
+
+    <input
+        type="number"
+        name="current_reading"
+        id="current_reading"
+        min="0"
+        step="0.01"
+        placeholder="Example: 12750"
+        required
+    >
+
+    <div id="livePreview" class="live-preview-box" style="display:none; margin-top:16px; padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <span style="font-size:13px; color:#475569; display:block;">Calculated Units</span>
+                <strong id="previewUnits" style="font-size:20px; color:#0f172a;">0</strong> <span style="font-size:13px; color:#64748b;">units</span>
+            </div>
+            <div style="text-align:right;">
+                <span style="font-size:13px; color:#475569; display:block;">Estimated Amount</span>
+                <strong id="previewAmount" style="font-size:22px; color:#059669;">₹0.00</strong>
+            </div>
+        </div>
+        <p id="previewError" style="display:none; color:#dc2626; font-size:13px; margin-top:8px; font-weight:600;">⚠️ Current reading cannot be less than previous reading.</p>
+    </div>
+
+
+
+    <div class="slab-box">
+
+        <h3>
+            Electricity Slab Rates
+        </h3>
+
+        <div class="slab">
+
+            <span>
+                0 - 100 Units
+            </span>
+
+            <strong>
+                ₹1.50 / Unit
+            </strong>
+
+        </div>
+
+
+        <div class="slab">
+
+            <span>
+                101 - 200 Units
+            </span>
+
+            <strong>
+                ₹2.50 / Unit
+            </strong>
+
+        </div>
+
+
+        <div class="slab">
+
+            <span>
+                201 - 400 Units
+            </span>
+
+            <strong>
+                ₹4.00 / Unit
+            </strong>
+
+        </div>
+
+
+        <div class="slab">
+
+            <span>
+                Above 400 Units
+            </span>
+
+            <strong>
+                ₹6.00 / Unit
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="submit"
+        class="btn full-btn"
+    >
+        Calculate & Continue
+    </button>
+
+</form>
+
+</div>
+
+{% endblock %}

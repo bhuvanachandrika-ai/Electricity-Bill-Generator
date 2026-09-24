@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>
+            Bill History
+        </h1>
+
+        <p>
+            View all previously generated electricity bills.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Bill ID
+                    </th>
+
+                    <th>
+                        Consumer
+                    </th>
+
+                    <th>
+                        Customer
+                    </th>
+
+                    <th>
+                        Month
+                    </th>
+
+                    <th>
+                        Units
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for bill in bills %}
+
+                <tr>
+
+                    <td>
+                        #{{ bill["id"] }}
+                    </td>
+
+                    <td>
+                        {{ bill["consumer_no"] }}
+                    </td>
+
+                    <td>
+                        {{ bill["name"] }}
+                    </td>
+
+                    <td>
+                        {{ bill["bill_month"] }}
+                    </td>
+
+                    <td>
+                        {{ bill["units"] }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(bill["amount"]) }}
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="{{ url_for('view_bill', bill_id=bill['id']) }}"
+                            class="small-btn"
+                        >
+                            View
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="7">
+                        No bills available.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="panel">
+
+    <h2>
+        Monthly Bill Report
+    </h2>
+
+    <p>
+        Select a month to download all bills as a CSV file.
+    </p>
+
+
+    <form
+        onsubmit="downloadReport(event)"
+        class="report-form"
+    >
+
+        <input
+            type="month"
+            id="reportMonth"
+            required
+        >
+
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Download Monthly Report
+        </button>
+
+    </form>
+
+</div>
+
+
+<script>
+
+function downloadReport(event) {
+
+    event.preventDefault();
+
+    const month =
+        document.getElementById("reportMonth").value;
+
+    if (month) {
+
+        window.location.href =
+            "/export/" + month;
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

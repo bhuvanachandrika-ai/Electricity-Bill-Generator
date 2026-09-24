@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Customer Management</h1>
+
+        <p>
+            Add and manage electricity consumers.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="two-column">
+
+
+    <div class="panel">
+
+        <h2>Add Customer</h2>
+
+        <form method="POST">
+
+            <label>
+                Consumer Number
+            </label>
+
+            <input
+                type="text"
+                name="consumer_no"
+                placeholder="Example: EB1001"
+                required
+            >
+
+
+            <label>
+                Customer Name
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Enter customer name"
+                required
+            >
+
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Enter phone number"
+                required
+            >
+
+
+            <label>
+                Address
+            </label>
+
+            <textarea
+                name="address"
+                placeholder="Enter customer address"
+                required
+            ></textarea>
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Add Customer
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h2>Customer Records</h2>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Consumer No.</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for customer in customers %}
+
+                    <tr>
+
+                        <td>
+                            {{ customer["consumer_no"] }}
+                        </td>
+
+                        <td>
+                            {{ customer["name"] }}
+                        </td>
+
+                        <td>
+                            {{ customer["phone"] }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="3">
+                            No customers found.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
